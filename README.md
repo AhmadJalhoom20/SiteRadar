@@ -2,6 +2,8 @@
 
 **Continuing on a Mac or handing this project to another developer? Start with [HANDOFF.md](HANDOFF.md).** It contains setup, private data migration, the latest implementation state, known unfinished work, and launch requirements. Original requirements: [Arabic product specification](docs/original-product-spec-ar.md).
 
+For the detailed architecture, every library's role, web/worker separation, API, database model and audit lifecycle, read [PROJECT-GUIDE.md](PROJECT-GUIDE.md).
+
 A Next.js, Node.js, TypeScript, and Tailwind audit product with a readable light interface. Public pages, real accounts, saved projects, rendered-page audits, Lighthouse performance, axe accessibility, and repair prompts.
 
 ## Run locally
