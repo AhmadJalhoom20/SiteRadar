@@ -1,0 +1,205 @@
+import type { Audit, AuditPage, Finding } from "./types";
+const paths = [
+  "/",
+  "/collections/desk-essentials",
+  "/products/arc-desk-lamp",
+  "/collections/workspace",
+  "/journal/a-better-workday",
+  "/about",
+  "/products/folio-organizer",
+  "/journal",
+  "/contact",
+  "/shipping",
+  "/products/desk-pad",
+  "/pages/our-materials",
+];
+const findings: Finding[] = [
+  {
+    id: "f1",
+    rule: "SEO-INDEX-001",
+    title: "Important pages are hidden from search",
+    category: "SEO",
+    severity: "Critical",
+    pages: paths.slice(1, 4),
+    evidence:
+      '<meta name="robots" content="noindex, follow"> was found on 3 collection and product pages.',
+    recommendation:
+      "Remove unintended noindex directives on public product and collection pages. Confirm the published HTML is indexable.",
+    effort: "15 min",
+    kind: "Observed",
+  },
+  {
+    id: "f2",
+    rule: "PERF-IMG-001",
+    title: "Oversized images are slowing down mobile",
+    category: "Performance",
+    severity: "High",
+    pages: paths.slice(0, 6),
+    evidence:
+      "Example lab fixture: hero-workspace.jpg is 2.4 MB; mobile LCP is 4.2 seconds.",
+    recommendation:
+      "Generate responsive AVIF/WebP variants, set image dimensions, and prioritize the hero image.",
+    effort: "1–2 hrs",
+    kind: "Observed",
+  },
+  {
+    id: "f3",
+    rule: "SEO-META-003",
+    title: "12 pages are missing a meta description",
+    category: "SEO",
+    severity: "High",
+    pages: paths,
+    evidence:
+      "The description meta tag is absent from the example HTML for these pages.",
+    recommendation:
+      "Write unique descriptions based on the visible content of each page.",
+    effort: "45 min",
+    kind: "Observed",
+  },
+  {
+    id: "f4",
+    rule: "GEO-ENTITY-001",
+    title: "Your organization is missing structured data",
+    category: "GEO readiness",
+    severity: "Medium",
+    pages: ["/", "/about"],
+    evidence:
+      "No Organization JSON-LD entity is present in the example homepage and About page.",
+    recommendation:
+      "Add Organization JSON-LD using verified company name, website, and existing contact details.",
+    effort: "30 min",
+    kind: "Needs review",
+  },
+  {
+    id: "f5",
+    rule: "A11Y-ALT-001",
+    title: "Product images need alternative text",
+    category: "Accessibility",
+    severity: "Medium",
+    pages: paths.slice(1, 6),
+    evidence: "Example fixture contains 18 images without an alt attribute.",
+    recommendation:
+      "Add useful alt text to informative images; use empty alt for decorative images.",
+    effort: "1 hr",
+    kind: "Observed",
+  },
+  {
+    id: "f6",
+    rule: "SEO-CAN-001",
+    title: "Canonical URLs are missing on journal posts",
+    category: "Technical",
+    severity: "Low",
+    pages: ["/journal/a-better-workday", "/journal"],
+    evidence: 'No link[rel="canonical"] element exists in the example pages.',
+    recommendation:
+      "Add a canonical URL for each public journal page using its preferred absolute URL.",
+    effort: "20 min",
+    kind: "Observed",
+  },
+];
+const pages: AuditPage[] = paths.map((p, i) => ({
+  url: `https://formandfield.example${p}`,
+  status: 200,
+  title: [
+    "Form & Field — Objects for a considered workspace",
+    "Desk essentials | Form & Field",
+    "Arc desk lamp | Form & Field",
+    "Your workspace, considered",
+  ][i % 4],
+  description: i % 3 ? "Thoughtfully made objects for a better workday." : "",
+  h1: ["A little more considered."],
+  canonical: i < 8 ? `https://formandfield.example${p}` : "",
+  words: 280 + i * 84,
+  issues: i === 0 ? 4 : i % 4,
+  indexable: !(i > 0 && i < 4),
+  schema: i % 2 ? ["Product"] : [],
+}));
+export const exampleAudit: Audit = {
+  id: "example",
+  name: "Form & Field",
+  url: "https://formandfield.example",
+  status: "completed",
+  createdAt: "2026-11-03T07:42:00Z",
+  completedAt: "2026-11-03T07:44:36Z",
+  synthetic: true,
+  config: {
+    url: "https://formandfield.example",
+    country: "United States",
+    language: "English",
+    device: "Mobile",
+    maxPages: 25,
+    keywords: [
+      "minimal desk accessories",
+      "home office essentials",
+      "designer desk lamp",
+      "workspace accessories",
+      "desk organizer",
+    ],
+    authorized: true,
+  },
+  pages,
+  findings,
+  score: 74,
+  scores: [
+    { category: "SEO", value: 78, note: "12 opportunities" },
+    { category: "GEO readiness", value: 56, note: "Room to improve" },
+    { category: "Performance", value: 68, note: "Mobile needs work" },
+    { category: "Accessibility", value: 92, note: "Looking healthy" },
+    { category: "Technical", value: 86, note: "4 opportunities" },
+  ],
+  events: [
+    {
+      time: "2026-11-03T07:44:36Z",
+      message: "Example report compiled. All data in this report is synthetic.",
+    },
+  ],
+};
+export const trend = [
+  { date: "Oct 7", score: 52, seo: 57 },
+  { date: "Oct 10", score: 56, seo: 60 },
+  { date: "Oct 13", score: 55, seo: 61 },
+  { date: "Oct 16", score: 62, seo: 65 },
+  { date: "Oct 19", score: 60, seo: 68 },
+  { date: "Oct 22", score: 65, seo: 69 },
+  { date: "Oct 25", score: 68, seo: 73 },
+  { date: "Oct 28", score: 67, seo: 74 },
+  { date: "Oct 31", score: 72, seo: 76 },
+  { date: "Nov 3", score: 74, seo: 78 },
+];
+export const exampleKeywords = [
+  {
+    phrase: "minimal desk accessories",
+    position: 8,
+    change: 4,
+    volume: "2,400",
+    page: "/collections/desk-essentials",
+  },
+  {
+    phrase: "home office essentials",
+    position: 14,
+    change: 3,
+    volume: "8,100",
+    page: "/collections/workspace",
+  },
+  {
+    phrase: "designer desk lamp",
+    position: 6,
+    change: 2,
+    volume: "1,900",
+    page: "/products/arc-desk-lamp",
+  },
+  {
+    phrase: "workspace accessories",
+    position: 23,
+    change: -2,
+    volume: "3,600",
+    page: "/collections/workspace",
+  },
+  {
+    phrase: "desk organizer",
+    position: 32,
+    change: 6,
+    volume: "12,100",
+    page: "/products/folio-organizer",
+  },
+];

@@ -1,0 +1,48 @@
+{
+  "name": "siteradar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup:browsers": "playwright install chromium",
+    "check:product": "node scripts/check-product.mjs",
+    "dev": "concurrently -k -n web,worker \"node scripts/next.mjs dev --hostname 127.0.0.1\" \"node --watch server/worker.ts\"",
+    "build": "node scripts/next.mjs build",
+    "start": "concurrently -k \"node scripts/next.mjs start --hostname 127.0.0.1\" \"node server/worker.ts\"",
+    "worker": "node server/worker.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@tailwindcss/postcss": "^4.1.0",
+    "cheerio": "^1.1.0",
+    "chrome-launcher": "^1.2.2",
+    "ipaddr.js": "^2.2.0",
+    "lighthouse": "13.5.0",
+    "next": "^16.0.0",
+    "playwright": "^1.64.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "recharts": "^3.0.0",
+    "robots-parser": "^3.0.1",
+    "sonner": "^2.0.7",
+    "tailwindcss": "^4.1.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "concurrently": "^9.2.0",
+    "typescript": "^5.9.0",
+    "vitest": "^5.1.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
